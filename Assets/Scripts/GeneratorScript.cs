@@ -27,7 +27,7 @@ public class GeneratorScript : MonoBehaviour {
 
 		GameObject room = (GameObject)Instantiate(availableRooms[randomRoomIndex]);
 
-		float roomWidth = room.transform.FindChild("Floor").localScale.x;
+		float roomWidth = room.transform.FindChild("floor").localScale.x;
 
 		float roomCenter = farhtestRoomEndX + roomWidth * 0.5f;
 
@@ -58,7 +58,7 @@ public class GeneratorScript : MonoBehaviour {
 				addRooms = false;
 			}
 
-			if(roomStartX < removeRoomX) {
+			if(roomEndX < removeRoomX) {
 				roomsToRemove.Add(room);
 			}
 
