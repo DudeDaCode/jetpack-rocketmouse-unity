@@ -12,6 +12,8 @@ public class MouseController : MonoBehaviour {
 
 	public ParticleSystem jetPack;
 
+	public uint coins = 0;
+
 	private bool dead = false;
 
 	// Use this for initialization
@@ -56,11 +58,22 @@ public class MouseController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D collider){
-		HitByLaser(collider);
+		if (collider.gameObject.CompareTag("Coins")) {
+			CollectCoin(collider);
+		}
+		else {
+			HitByLaser(collider);
+		}
 	}
 
 	void HitByLaser(Collider2D laserCollider){
 		dead = true;
 		animator.SetBool("dead", true);
+	}
+
+	void CollectCoin(Collider2D coinCollider){
+		coins++;
+
+		Destroy(coinCollider.gameObject);
 	}
 }
