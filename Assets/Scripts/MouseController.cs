@@ -17,7 +17,7 @@ public class MouseController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	// FixedUpdate is called at a fixed rate, should be used to write the code related to physics simulation
