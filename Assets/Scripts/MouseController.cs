@@ -10,6 +10,8 @@ public class MouseController : MonoBehaviour {
 	public LayerMask groundCheckLayerMask;
 	Animator animator;
 
+	public ParticleSystem jetPack;
+
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<Animator>();
@@ -33,10 +35,17 @@ public class MouseController : MonoBehaviour {
 		GetComponent<Rigidbody2D> ().velocity = newVelocity;
 
 		UpdateGroundedStatus();
+
+		AjustJetPack(jetpackActive);
 	}
 
 	void UpdateGroundedStatus(){
 		grounded = Physics2D.OverlapCircle(groundCheckTransform.position, 0.1f, groundCheckLayerMask);
 		animator.SetBool("grounded", grounded);
+	}
+
+	void AjustJetPack(bool jetpackActive){
+		jetPack.enableEmission = !grounded;
+		jetPack.emissionRate = jetpackActive ? 300.0f : 75.0f;
 	}
 }
