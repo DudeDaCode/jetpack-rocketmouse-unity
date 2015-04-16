@@ -12,6 +12,8 @@ public class MouseController : MonoBehaviour {
 
 	public ParticleSystem jetPack;
 
+	private bool dead = false;
+
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<Animator>();
@@ -25,14 +27,18 @@ public class MouseController : MonoBehaviour {
 	// FixedUpdate is called at a fixed rate, should be used to write the code related to physics simulation
 	void FixedUpdate(){
 		bool jetpackActive = Input.GetButton ("Fire1");
+
+		jetpackActive = jetpackActive && !dead;
 		
 		if (jetpackActive) {
 			GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jetpackForce));
 		}
 
-		Vector2 newVelocity = GetComponent<Rigidbody2D> ().velocity;
-		newVelocity.x = forwardMovementSpeed;
-		GetComponent<Rigidbody2D> ().velocity = newVelocity;
+		if(!dead){
+			Vector2 newVelocity = GetComponent<Rigidbody2D> ().velocity;
+			newVelocity.x = forwardMovementSpeed;
+			GetComponent<Rigidbody2D> ().velocity = newVelocity;
+		}
 
 		UpdateGroundedStatus();
 
@@ -47,5 +53,14 @@ public class MouseController : MonoBehaviour {
 	void AjustJetPack(bool jetpackActive){
 		jetPack.enableEmission = !grounded;
 		jetPack.emissionRate = jetpackActive ? 300.0f : 75.0f;
+	}
+
+	void OnTriggerEnter2D(Collider2D collider){
+		HitByLaser(collider);
+	}
+
+	void HitByLaser(Collider2D laserCollider){
+		dead = true;
+		animator.SetBool("dead", true);
 	}
 }
